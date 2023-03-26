@@ -37,3 +37,15 @@ export function wordToMap(word) {
       return map;
     }, {});
 }
+
+//게임 상태에 따른 메세지 출력 함수
+export function generateGameMessage(gameStatus) {
+  if (gameStatus === GameStatus.LOSE) {
+    return "게임에 졌습니다. 다시 시작하세요.";
+  } else if (gameStatus === GameStatus.WIN) {
+    return "단어를 맞췄습니다! 다시 시작하세요.";
+  } else if (gameStatus === GameStatus.READY) {
+    return "게임을 시작하세요.";
+  }
+  return "";
+}
