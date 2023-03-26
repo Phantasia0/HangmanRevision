@@ -1,0 +1,29 @@
+.app {
+  display: flex;
+  width: 768px;
+  height: 600px;
+}
+
+.hangman-image-container {
+  background: var(--medium-turquoise);
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controller-container {
+  background: var(--azure);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* HangmanImage component */
+
+/* ButtonBox component */
+
+/* Word component */
+
+/* KeyboardLayout component */
