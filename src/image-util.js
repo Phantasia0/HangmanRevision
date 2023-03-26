@@ -57,7 +57,7 @@ export function loadImage({ url, name, dx, dy }) {
 //그런데 이거 async await를 load 함수에 적용하고
 //fetchAll에도 적용하려니 잘 안돼었다.
 //load 이벤트 발생 전에 Promise.all이 먼저 다 resolve되는 사태 발생...
-//추후 다시 생각각
+//추후 다시 생각
 export function fetchAllImages() {
   return Promise.all(imageData.map((item) => loadImage(item)));
 }
