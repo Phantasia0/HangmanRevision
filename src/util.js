@@ -31,9 +31,9 @@ export function wordToMap(word) {
     .split("")
     .reduce((map, cur, idx) => {
       if (!map[cur]) {
-        map[c] = [];
+        map[cur] = [];
       }
-      map[c].push(idx);
+      map[cur].push(idx);
       return map;
     }, {});
 }
