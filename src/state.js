@@ -1,4 +1,5 @@
 import { GameStatus } from "./util";
+import { wordToMap } from "./util";
 
 //초기 상태
 export const initialState = {

@@ -12,12 +12,12 @@ export const HangmanImage = (chancesLeft, images) => {
   //결국 끝에서 부터 하나씩 출력된다
   images.slice(chancesLeft).map((item, idx) => {
     //canvas의 drawImage 함수 참조
-    context.drawImage(item.image, item.dx, item.dy, ...[calculateImageSize(item.image.width, item.image.height, 70)]);
+    context.drawImage(item.image, item.dx, item.dy, ...calculateImageSize(item.image.width, item.image.height, 70));
   });
 };
 
 //Word Component
-export const Word = ({ gameStatus, wordArr }) => {
+export const Word = (gameStatus, wordArr) => {
   const container = id("word");
   container.innerHTML = "";
 
@@ -33,6 +33,7 @@ export const Word = ({ gameStatus, wordArr }) => {
   }
 
   //게임이 시작되었다면 wordArr은 더이상 빈배열이 아니므로 실행된다.
+
   const spans = wordArr.map((c) => {
     const span = h("span");
     if (c !== " ") {
@@ -42,12 +43,14 @@ export const Word = ({ gameStatus, wordArr }) => {
     return span;
   });
 
-  wordText.append(...spans);
+  if (!isGameEnded(gameStatus)) {
+    wordText.append(...spans);
+  }
   container.appendChild(wordText); //id="#word" 영역의 하위요소로 추가
 };
 
 //Keyboard Component
-export const KeyboardLayout = ({ gameStatus, enteredCharacters }) => {
+export const KeyboardLayout = (gameStatus, enteredCharacters, onClickItem) => {
   const container = id("keyboard-layout");
   container.innerHTML = "";
 
@@ -64,8 +67,8 @@ export const KeyboardLayout = ({ gameStatus, enteredCharacters }) => {
 
       button.classList.add('keyboard-button');
       button.innerText = c;
-      button.addEventList('click',()=>{
-        //c라는 알파벳 전달 필요
+      button.addEventListener('click',()=> {
+        onClickItem(c);
       });
       //게임 종료 혹은 이미 누른 문자일 경우 비활성화
       button.disabled =  isGameEnded(gameStatus) || enteredCharacters[c];
@@ -79,7 +82,7 @@ export const KeyboardLayout = ({ gameStatus, enteredCharacters }) => {
 };
 
 //ButtonBox Component
-export const ButtonBox = ({ wordLoading, gameStatus, chancesLeft, timer }) => {
+export const ButtonBox = (wordLoading, gameStatus, chancesLeft, timer, onClickStart) => {
   const container = id("button-box");
   container.innerHTML = "";
 
@@ -97,9 +100,7 @@ export const ButtonBox = ({ wordLoading, gameStatus, chancesLeft, timer }) => {
   const button = h("button");
   button.classList.add("start-button");
   button.innerText = "START";
-  button.addEventList("click", () => {
-    //게임 시작
-  });
+  button.addEventListener("click", onClickStart);
   //로딩 중이거나 게임 시작상태일 때는 비활성화
   button.disabled = wordLoading || !isGameEnded(gameStatus);
 
@@ -107,3 +108,11 @@ export const ButtonBox = ({ wordLoading, gameStatus, chancesLeft, timer }) => {
   //append는 매개변수에 여러개를 나열해서 넣을 수 있다.
   container.append(chances, timerText, button);
 };
+
+//SetInterval을 통해 지속적으로 상태를 매개변수로써 전달 받고, 정보를 갱신해서 리랜더링해주는 함수
+export function render(state, imageSources, onClickItem, onClickStart) {
+  KeyboardLayout(state.gameStatus, state.enteredCharacters, onClickItem);
+  Word(state.gameStatus, state.wordArr);
+  ButtonBox(state.wordLoading, state.gameStatus, state.chancesLeft, state.timer, onClickStart);
+  HangmanImage(state.chancesLeft, imageSources);
+}
