@@ -1,4 +1,4 @@
-# 행맨 Study 와 Git Flow 연습 중
+# 행맨 게임 && Git Flow 연습 중
 
 # Feature/framework 브랜치 - 전체적인 폴더화, 디자인 틀 작업
 
